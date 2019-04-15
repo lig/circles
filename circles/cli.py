@@ -4,12 +4,12 @@ from . import solve
 
 
 @click.command(name="circles")
-@click.argument('n', type=click.INT)
-def main(n: int) -> None:
-    assert n > 0
+@click.argument('number', type=click.INT)
+def main(number: int) -> None:
+    assert number > 0
 
-    solutions = solve.calculate_circles(num_circles=n)
+    solutions = solve.calculate_circles(num_circles=number)
 
-    for solution in solutions:
-        print(solution)
-    print(f"The number of solutions for `{n}` circles is `{len(solutions)}`")
+    for n, solution in enumerate(sorted(solutions), 1):
+        print(f"{n}: {solution}")
+    print(f"The number of solutions for `{number}` circles is `{len(solutions)}`")

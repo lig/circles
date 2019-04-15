@@ -28,3 +28,5 @@ class Circle:
 
 
 solution_T = typing.List[Circle]
+
+result_T = typing.Set[typing.Tuple[Circle, ...]]
