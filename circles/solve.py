@@ -144,11 +144,40 @@ def normalize_solution(*, solution: types.solution_T) -> types.solution_T:
     return normalized_solution
 
 
+def is_valid_solution(*, solution: types.solution_T):
+    require_intersections = set()
+
+    for circle in solution:
+
+        intersection_stack = []
+        for index in circle.intersects:
+            intersection_stack.append(index)
+            if len(intersection_stack) < 2:
+                continue
+
+            if intersection_stack[-1] == intersection_stack[-2]:
+                del intersection_stack[-2:]
+            else:
+                require_intersections.add(tuple(sorted(intersection_stack[-2:])))
+
+    print(require_intersections)
+
+    for circle in solution:
+        for index in circle.intersects:
+            require_intersections.discard(tuple(sorted((circle.index, index))))
+
+    print(require_intersections)
+
+    return not require_intersections
+
+
 def normalize_solutions(
     *, solutions: typing.Sequence[types.solution_T]
 ) -> types.result_T:
     return {
-        tuple(normalize_solution(solution=solution)) for solution in sorted(solutions)
+        tuple(normalize_solution(solution=solution))
+        for solution in sorted(solutions)
+        if is_valid_solution(solution=solution)
     }
 
 
